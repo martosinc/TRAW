@@ -12,16 +12,17 @@ namespace TRAW.Items.Weapons
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Гусс-Йойо");
+            Tooltip.SetDefault("Кряк! Кряк! О силе гуссей ходят мифы и легенды, но этот гусс превосходит всех остальных.");
         }
 		public override void SetDefaults() {
 			item.useStyle = ItemUseStyleID.HoldingOut;
-			item.width = 27;
-			item.height = 27;
+			item.width = 24;
+			item.height = 24;
 			item.useAnimation = 25;
 			item.useTime = 25;
 			item.shootSpeed = 16f;
 			item.knockBack = 2.5f;
-			item.damage = 6;
+			item.damage = 9;
 			item.rare = ItemRarityID.White;
 
 			item.melee = true;
@@ -32,6 +33,13 @@ namespace TRAW.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.value = Item.sellPrice(silver: 56);
 			item.shoot = ModContent.ProjectileType<GussYoyoProjectile>();
+		}
+		public override void AddRecipes() {
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(mod.ItemType("GussFeather"), 8);
+			recipe.AddTile(18);
+			recipe.SetResult(this); 
+			recipe.AddRecipe();
 		}
     }
 public class GussYoyoProjectile : ModProjectile
@@ -51,13 +59,6 @@ public class GussYoyoProjectile : ModProjectile
 			projectile.penetrate = -1;
 			projectile.melee = true;
 			projectile.scale = 1f;
-		}
-		public override void PostAI() {
-			if (Main.rand.NextBool()) {
-				Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 16);
-				dust.noGravity = true;
-				dust.scale = 1.6f;
-			}
 		}
 	}
 }

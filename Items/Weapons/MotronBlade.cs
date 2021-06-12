@@ -12,11 +12,13 @@ namespace TRAW.Items.Weapons
     {
         public override void SetStaticDefaults() {
             DisplayName.SetDefault("Клинок Мотрона");
+            Tooltip.SetDefault("До нерфа был способен станить целые группы и сообщества игроков.");
+
         }
         public override void SetDefaults() {
 			item.damage = 20; 
-			item.width = 40; 
-			item.height = 40; 
+			item.width = 32; 
+			item.height = 36; 
 			item.useTime = 40; 
 			item.useAnimation = 20; 
 			item.knockBack = 6; 
@@ -59,7 +61,16 @@ namespace TRAW.Items.Weapons
 			recipe.AddTile(TileID.DemonAltar);
 			recipe.SetResult(this); 
 			recipe.AddRecipe(); 
-            
+
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<GussYoyo>(), 1);
+			recipe.AddIngredient(ItemID.RottenChunk, 5);
+			recipe.AddIngredient(ItemID.Stinger, 2);
+			recipe.AddIngredient(ItemID.DemoniteBar, 10);
+			recipe.AddIngredient(ItemID.ShadowScale, 10);
+			recipe.AddTile(TileID.DemonAltar);
+			recipe.SetResult(this); 
+			recipe.AddRecipe(); 
 		}
     }
     public class MotronBladeProjectile : ModProjectile {
@@ -70,8 +81,8 @@ namespace TRAW.Items.Weapons
             projectile.friendly = true;
             projectile.hostile = false;
             projectile.melee = true;
-            projectile.width = 40;
-            projectile.height = 40;
+            projectile.width = 64;
+            projectile.height = 72;
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = -1;
