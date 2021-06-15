@@ -22,11 +22,11 @@ namespace TRAW.Items.Weapons
 			item.useTime = 30; 
 			item.useAnimation = 30; 
 			item.knockBack = 10; 
-			item.value = Item.buyPrice(gold: 1); 
-			item.rare = 3; 
+			item.value = Item.buyPrice(gold: 5); 
+			item.rare = 1; 
             item.channel = true;
 			item.UseSound = SoundID.Item1;
-			item.crit = 6;
+			item.crit = 10;
             item.noUseGraphic = true;
             item.autoReuse = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
@@ -36,14 +36,14 @@ namespace TRAW.Items.Weapons
         }		
         public override void AddRecipes() {
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MotronBlade>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<MotronScythe>(), 1);
 			recipe.AddIngredient(ItemID.SilverBar, 12);
 			recipe.AddTile(TileID.DemonAltar);
 			recipe.SetResult(this); 
 			recipe.AddRecipe(); 
 
 			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MotronBlade>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<MotronScythe>(), 1);
 			recipe.AddIngredient(ItemID.TungstenBar, 12);
 			recipe.AddTile(TileID.DemonAltar);
 			recipe.SetResult(this); 

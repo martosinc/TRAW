@@ -33,16 +33,16 @@ namespace TRAW.Items.Weapons
             Tooltip.SetDefault("Не шизанись");
         }
         public override void SetDefaults() {
-			item.damage = 22;
+			item.damage = 25;
 			item.knockBack = 3f;
 			item.mana = 6;
-			item.width = 32;
-			item.height = 32;
+			item.width = 56;
+			item.height = 58;
 			item.useTime = 20;
 			item.useAnimation = 20;
 			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.value = Item.buyPrice(0, 30, 0, 0);
-			item.rare = ItemRarityID.Cyan;
+			item.value = Item.buyPrice(gold: 6);
+			item.rare = 1;
 			item.UseSound = SoundID.Item44;
 
             item.noMelee = true;
@@ -56,6 +56,14 @@ namespace TRAW.Items.Weapons
             position = Main.MouseWorld;
             return true;
         }
+		public override void AddRecipes() {
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<ZeroGlove>(), 1);
+			recipe.AddIngredient(ModContent.ItemType<AstralHammer>(), 1);
+			recipe.AddTile(TileID.DemonAltar);
+			recipe.SetResult(this); 
+			recipe.AddRecipe(); 
+		}
     }
     public class Whale : ModProjectile
     {
@@ -63,12 +71,11 @@ namespace TRAW.Items.Weapons
             Main.projPet[projectile.type] = true;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.Homing[projectile.type] = true;
-            Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
         public override void SetDefaults() {
-            projectile.height = 102;
-            projectile.width = 102;
+            projectile.height = 120;
+            projectile.width = 58;
 
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
@@ -92,7 +99,10 @@ namespace TRAW.Items.Weapons
         private bool DASHING = false;
         private Vector2 oldVelocity;
         private Vector2 center;
+        private int followTimer;
+        private bool mirror;
         public override void AI() {
+            mirror = false;
             int speed = 10;
             float inertia = 11f;
             bool foundTarget = false;
@@ -105,8 +115,8 @@ namespace TRAW.Items.Weapons
                 projectile.timeLeft = 2;
             }  
             projectile.rotation =
-                projectile.velocity.ToRotation() +
-                MathHelper.ToRadians(90f); 
+                projectile.velocity.ToRotation();
+                // MathHelper.ToRadians(90f); 
             
             Vector2 targetCenter = GetTarget(ref foundTarget);
 
@@ -124,12 +134,14 @@ namespace TRAW.Items.Weapons
                 STEP=0;
             }
 
+            projectile.spriteDirection = 1;
+
             switch (STEP) {
                 case 0:
                     if (foundTarget) {
                         STEP++;
                     } else {
-                        if (Vector2.Distance(projectile.position,player.Center)<200f) {
+                        if (Vector2.Distance(projectile.position,player.Center)<210f) {
                             var b = projectile.position;
                             var a = player.Center;
                             float angle = -(float)Math.Atan2(b.Y-a.Y,b.X-a.X)+MathHelper.ToRadians(90);
@@ -141,12 +153,23 @@ namespace TRAW.Items.Weapons
                             projectile.rotation =
                                 direction.ToRotation() +
                                 MathHelper.ToRadians(90f);
+
+                            followTimer=0;
                         } else {
-                            move = player.Center - projectile.Center;
+                            followTimer++;
+                            if (followTimer > 5) {
+                                move = player.Center - projectile.Center;
+                            }
+                            if (projectile.velocity.X<0){
+                                mirror = true;
+                            }
                         }
                     }
                     break;
                 case 1:
+                    if (projectile.velocity.X<0){
+                        mirror = true;
+                    }
                     if (!DASHING) {
                         move = targetCenter - projectile.Center;
                     } else {
@@ -195,6 +218,10 @@ namespace TRAW.Items.Weapons
 
             AdjustMagnitude(ref move);
             projectile.velocity = (projectile.velocity * (inertia - 1) + move*1.75f) / inertia;
+            if (mirror) {
+                projectile.spriteDirection = -1;
+                projectile.rotation += MathHelper.ToRadians(180);
+            }
         }
         public Vector2 RotateRadians(Vector2 v, double radians)
         {

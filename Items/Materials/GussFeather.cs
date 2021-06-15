@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -14,8 +15,8 @@ namespace TRAW.Items.Materials
         {
             item.width = 18;
             item.height = 30;
-            item.value = 51;
-            item.rare = 2;
+            item.value = Item.buyPrice(copper: 51);
+            item.rare = 0;
             item.maxStack = 999;
         }
     }

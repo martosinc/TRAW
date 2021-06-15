@@ -23,7 +23,7 @@ namespace TRAW.Items.Weapons
 			item.shootSpeed = 16f;
 			item.knockBack = 2.5f;
 			item.damage = 9;
-			item.rare = ItemRarityID.White;
+			item.rare = 1;
 
 			item.melee = true;
 			item.channel = true;
@@ -31,7 +31,7 @@ namespace TRAW.Items.Weapons
 			item.noUseGraphic = true;
 
 			item.UseSound = SoundID.Item1;
-			item.value = Item.sellPrice(silver: 56);
+			item.value = Item.sellPrice(silver: 18, copper: 45);
 			item.shoot = ModContent.ProjectileType<GussYoyoProjectile>();
 		}
 		public override void AddRecipes() {

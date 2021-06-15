@@ -23,7 +23,7 @@ namespace TRAW.Items.Weapons
             item.autoReuse = true;
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.value = Item.buyPrice(0, 30, 0, 0);
-			item.rare = ItemRarityID.Cyan;
+			item.rare = 2;
 			item.UseSound = SoundID.Item44;
 
             item.magic = true;

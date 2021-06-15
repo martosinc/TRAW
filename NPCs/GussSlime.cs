@@ -21,7 +21,7 @@ namespace TRAW.NPCs
             npc.defense = 3;             
             npc.lifeMax = 30;            
             npc.HitSound = SoundID.NPCHit1 ;            
-            npc.DeathSound = SoundID.NPCDeath2 ;          
+            npc.DeathSound = SoundID.NPCDeath1;          
             npc.value = 10f;             
             npc.knockBackResist = 0f;      
             Main.npcFrameCount[npc.type] = 2; 

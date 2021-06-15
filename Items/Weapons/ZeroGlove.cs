@@ -22,8 +22,8 @@ namespace TRAW.Items.Weapons
 			item.width = 26; 
 			item.height = 26; 
 			item.knockBack = 0; 
-			item.value = Item.buyPrice(gold: 1, silver:15); 
-			item.rare = 3; 
+			item.value = Item.sellPrice(gold: 1, silver:15); 
+			item.rare = 1; 
 			item.crit = 6;
             item.useTime = 20;
             item.useAnimation = 20;
@@ -32,7 +32,6 @@ namespace TRAW.Items.Weapons
             item.noUseGraphic = true;
             item.magic = true;
             item.noMelee = true;
-
             item.shoot = ModContent.ProjectileType<ZeroGloveEye>();
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
@@ -73,7 +72,10 @@ namespace TRAW.Items.Weapons
             TIMER = 10;
         }
         private int ALPHA_CHANGE = 25;
+        private int MANA_TIMER = 3;
         public override void AI() {
+            MANA_TIMER--;
+            projectile.rotation += 0.3f;
             if (TIMER > 0) {TIMER--;projectile.friendly = false;} else {projectile.friendly = true;}
             if (projectile.alpha > 50) {projectile.alpha -= ALPHA_CHANGE;
             // projectile.scale+=0.075f*2;
@@ -92,8 +94,15 @@ namespace TRAW.Items.Weapons
             bool stillInUse = player.channel && !player.noItems && !player.CCed;
             projectile.position = Main.MouseWorld - new Vector2(projectile.width/2,projectile.height/2);
 
-            if (!stillInUse) {
-                projectile.active = false;
+            bool manaIsAvailable = player.CheckMana(player.HeldItem.mana, true, false);
+
+            if (!stillInUse || !manaIsAvailable) {
+                // projectile.active = false;
+                return;
+            }
+            if (manaIsAvailable && MANA_TIMER==0) {
+                player.statMana -= 5;
+                MANA_TIMER = 3;
             }
             projectile.timeLeft = 2;
         }

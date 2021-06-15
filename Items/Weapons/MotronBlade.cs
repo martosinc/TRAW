@@ -8,11 +8,12 @@ using static Terraria.ModLoader.ModContent;
 
 namespace TRAW.Items.Weapons
 {
-    public class MotronBlade : ModItem
+    public class MotronScythe : ModItem
     {
         public override void SetStaticDefaults() {
-            DisplayName.SetDefault("Клинок Мотрона");
-            Tooltip.SetDefault("До нерфа был способен станить целые группы и сообщества игроков.");
+            DisplayName.SetDefault("Коса Мотрона");
+            // Tooltip.SetDefault("До нерфа был способен станить целые группы и сообщества игроков.");
+            Tooltip.SetDefault("Один из самых древних артефактов TRA.");
 
         }
         public override void SetDefaults() {
@@ -22,8 +23,8 @@ namespace TRAW.Items.Weapons
 			item.useTime = 40; 
 			item.useAnimation = 20; 
 			item.knockBack = 6; 
-			item.value = Item.buyPrice(gold: 1); 
-			item.rare = 3; 
+			item.value = Item.buyPrice(gold: 2); 
+			item.rare = 1; 
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
 			item.crit = 6;
@@ -32,7 +33,7 @@ namespace TRAW.Items.Weapons
             item.melee = true;
             item.noMelee = true;
 
-            item.shoot = ModContent.ProjectileType<MotronBladeProjectile>();
+            item.shoot = ModContent.ProjectileType<MotronScytheProjectile>();
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack) {
             position = Main.MouseWorld + GetVector(MathHelper.ToRadians(Main.rand.Next(360)))*100f;
@@ -73,7 +74,7 @@ namespace TRAW.Items.Weapons
 			recipe.AddRecipe(); 
 		}
     }
-    public class MotronBladeProjectile : ModProjectile {
+    public class MotronScytheProjectile : ModProjectile {
         Vector2 startVelocity;
         bool spawned = false;
         public override void SetDefaults() {
@@ -81,8 +82,8 @@ namespace TRAW.Items.Weapons
             projectile.friendly = true;
             projectile.hostile = false;
             projectile.melee = true;
-            projectile.width = 64;
-            projectile.height = 72;
+            projectile.width = 46;
+            projectile.height = 40;
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = -1;
@@ -92,6 +93,7 @@ namespace TRAW.Items.Weapons
         private int TIMER_MAX = 30;
         private int alphaChange = 10;
         private float inertia = 5f;
+        private float rotationTurn = 1f;
         public override void AI() {
             TIMER++;
 
@@ -110,6 +112,8 @@ namespace TRAW.Items.Weapons
             } else if (TIMER == TIMER_MAX) {
                 projectile.velocity = startVelocity;
             } else {
+                projectile.rotation += rotationTurn;
+                rotationTurn *= 0.7f;
                 projectile.velocity = (projectile.velocity * (inertia - 1)) / inertia;
                 projectile.alpha += alphaChange * 2;
             }

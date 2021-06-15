@@ -10,7 +10,7 @@ namespace TRAW.Items.Materials
     {
 		public override void SetStaticDefaults() {
 			DisplayName.SetDefault("Эссенция Зеро");
-			Tooltip.SetDefault("'The essence of example creatures'");
+			Tooltip.SetDefault("Переполненна злобой души Зеро");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 5));
 			// ItemID.Sets.AnimatesAsSoul[item.type] = true;
 			ItemID.Sets.ItemIconPulse[item.type] = true;
@@ -20,8 +20,8 @@ namespace TRAW.Items.Materials
         {
             item.width = 24;
             item.height = 26;
-            item.value = 15;
-            item.rare = 1;
+            item.value = 30;
+            item.rare = 0;
             item.maxStack = 99;
         }
 		public override void GrabRange(Player player, ref int grabRange) {
